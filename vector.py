@@ -1,4 +1,4 @@
-## Vector class containing functions for linear algebra
+## class containing various vector operations
 
 from math import sqrt, acos, pi
 from decimal import Decimal, getcontext
@@ -6,7 +6,8 @@ from decimal import Decimal, getcontext
 getcontext().prec = 30
 
 class Vector(object):
-    '''takes coordinates of a vector; contains various linear algebra functions'''
+    '''takes coordinates of a vector; contains various functions
+       for vector operations'''
 
     CANNOT_NORMALIZE_ZERO_VECTOR_MSG = 'Cannot normalize the zero vector'
     NO_UNIQUE_ORTHOGONAL_COMPONENT_MSG = 'No unique orthogonal component'
