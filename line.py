@@ -11,8 +11,8 @@ class Line(object):
     NO_NONZERO_ELTS_FOUND_MSG = 'No nonzero elements found'
 
     def __init__(self, normal_vector=None, constant_term=None):
-        '''initializes line; takes normal vector and constant term; sets dimension, normal_vector,
-        constant_term, and basepoint'''
+        '''initializes line; takes normal vector and constant term; sets
+        dimension, normal_vector, constant_term, and basepoint'''
         self.dimension = 2
 
         if not normal_vector:
@@ -47,6 +47,24 @@ class Line(object):
                 raise e
 
     def intersection_with(self, ell):
+        '''takes two lines and returns intersection;
+        if same line, returns self; if parallel, returns None'''
+        if self.is_parallel_to(ell):
+            if self == ell:
+                return self
+            return None
+        else:
+            A, B = self.normal_vector.coordinates
+            C, D = ell.normal_vector.coordinates
+            k1 = self.constant_term
+            k2 = ell.constant_term
+
+            x_numerator = D*k1 - B*k2
+            y_numerator = -C*k1 + A*k2
+            one_over_denom = Decimal('1.0') / (A*D - B*C)
+            return Vector([x_numerator, y_numerator]).times_scalar(one_over_denom)
+
+        '''
         try:
             A, B = self.normal_vector.coordinates
             C, D = ell.normal_vector.coordinates
@@ -55,8 +73,7 @@ class Line(object):
 
             x_numerator = D*k1 - B*k2
             y_numerator = -C*k1 + A*k2
-            one_over_denom = Decimal('1')/(A*D - B*C)
-
+            one_over_denom = 1 /round((A*D - B*C), 10)
             return Vector([x_numerator, y_numerator]).times_scalar(one_over_denom)
 
         except ZeroDivisionError:
@@ -64,14 +81,16 @@ class Line(object):
                 return self
             else:
                 return None
+        '''
 
     def __eq__(self, ell):
         '''takes two lines and checks whether they are the same line'''
         if self.normal_vector.is_zero():
-            return False
-        else:
-            diff = self.constant_term - ell.constant_term
-            return MyDecimal(diff).is_near_zero()
+            if not ell.normal_vector.is_zero():
+                return False
+            else:
+                diff = self.constant_term - ell.constant_term
+                return MyDecimal(diff).is_near_zero()
         elif ell.normal_vector.is_zero():
             return False
 
@@ -80,7 +99,8 @@ class Line(object):
 
         x0 = self.basepoint
         y0 = ell.basepoint
-        basepoint_difference = x0.minus(y0)
+        basepoint_difference = Vector(x0.minus(y0))
+
 
         n = self.normal_vector
         return basepoint_difference.is_orthogonal_to(n)
@@ -153,3 +173,15 @@ class MyDecimal(Decimal):
     '''takes a number and test whether its within a tolerance of 0'''
     def is_near_zero(self, eps=1e-10):
         return abs(self) < eps
+
+ell1 = Line(normal_vector=Vector(['4.046', '2.836']), constant_term='1.21')
+ell2 = Line(normal_vector=Vector(['10.115', '7.09']), constant_term='3.025')
+print 'intersection 1:', ell1.intersection_with(ell2)
+
+ell3 = Line(normal_vector=Vector([7.204, 3.182]), constant_term='8.68')
+ell4 = Line(normal_vector=Vector([8.172, 4.114]), constant_term='9.883')
+print 'intersection 2', ell3.intersection_with(ell4)
+
+ell5 = Line(normal_vector=Vector([1.182, 5.562]), constant_term='6.744')
+ell6 = Line(normal_vector=Vector([1.773, 8.343]), constant_term='9.525')
+print 'intersection 3:', ell5.intersection_with(ell6)

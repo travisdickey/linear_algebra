@@ -3,7 +3,7 @@
 from math import sqrt, acos, pi
 from decimal import Decimal, getcontext
 
-getcontext().prec = 30
+getcontext().prec = 10
 
 class Vector(object):
     '''takes coordinates of a vector; contains various functions
@@ -147,6 +147,9 @@ class Vector(object):
         '''takes a vector and scalar and multiplies them'''
         new_coordinates = [Decimal(c)*x for x in self.coordinates]
         return new_coordinates
+
+    def __getitem__(self, i):
+        return self.coordinates[i]
 
     def __str__(self):
         return 'Vector: {}'.format(self.coordinates)
