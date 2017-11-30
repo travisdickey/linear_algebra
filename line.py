@@ -49,22 +49,7 @@ class Line(object):
     def intersection_with(self, ell):
         '''takes two lines and returns intersection;
         if same line, returns self; if parallel, returns None'''
-        if self.is_parallel_to(ell):
-            if self == ell:
-                return self
-            return None
-        else:
-            A, B = self.normal_vector.coordinates
-            C, D = ell.normal_vector.coordinates
-            k1 = self.constant_term
-            k2 = ell.constant_term
 
-            x_numerator = D*k1 - B*k2
-            y_numerator = -C*k1 + A*k2
-            one_over_denom = Decimal('1.0') / (A*D - B*C)
-            return Vector([x_numerator, y_numerator]).times_scalar(one_over_denom)
-
-        '''
         try:
             A, B = self.normal_vector.coordinates
             C, D = ell.normal_vector.coordinates
@@ -81,7 +66,6 @@ class Line(object):
                 return self
             else:
                 return None
-        '''
 
     def __eq__(self, ell):
         '''takes two lines and checks whether they are the same line'''

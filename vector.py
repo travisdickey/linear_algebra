@@ -151,6 +151,9 @@ class Vector(object):
     def __getitem__(self, i):
         return self.coordinates[i]
 
+    def __iter__(self):
+        return self.coordinates.__iter__()
+
     def __str__(self):
         return 'Vector: {}'.format(self.coordinates)
 
