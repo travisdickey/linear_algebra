@@ -48,7 +48,7 @@ class Plane(object):
 
         x0 = self.basepoint
         y0 = p.basepoint
-        basepoint_difference = Vector(x0.minus(y0))
+        basepoint_difference = x0.minus(y0)
 
         n = self.normal_vector
         return basepoint_difference.is_orthogonal_to(n)
@@ -131,18 +131,3 @@ class Plane(object):
 class MyDecimal(Decimal):
     def is_near_zero(self, eps=1e-10):
         return abs(self) < eps
-
-elp1 = Plane(normal_vector=Vector([-0.412, 3.806, 0.728]), constant_term='-3.46')
-elp2 = Plane(normal_vector=Vector([1.03, -9.515, -1.82]), constant_term='8.65')
-print 'Equal 1:', elp1 == elp2
-print 'Parallel 1:', elp1.is_parallel_to(elp2)
-
-elp3 = Plane(normal_vector=Vector([2.611, 5.528, 0.283]), constant_term='4.6')
-elp4 = Plane(normal_vector=Vector([7.715, 8.306, 5.342]), constant_term='3.76')
-print 'Equal 2:', elp3 == elp4
-print 'Parallel 2:', elp3.is_parallel_to(elp4)
-
-elp5 = Plane(normal_vector=Vector([-7.926, 8.625, -7.212]), constant_term='-7.952')
-elp6 = Plane(normal_vector=Vector([-2.642, 2.875, -2.404]), constant_term='-2.443')
-print 'Equal 3:', elp5 == elp6
-print 'Parallel 3:', elp5.is_parallel_to(elp6)

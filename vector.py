@@ -52,7 +52,7 @@ class Vector(object):
         '''takes vector and returns its unit vector'''
         try:
             magnitude = self.magnitude()
-            return Vector(self.times_scalar(Decimal('1.0') / Decimal(magnitude)))
+            return self.times_scalar(Decimal('1.0') / Decimal(magnitude))
         except ZeroDivisionError:
             raise Exception(CANNOT_NORMALIZE_ZERO_VECTOR_MSG)
 
@@ -94,7 +94,7 @@ class Vector(object):
     def component_orthogonal_to(self, basis):
         '''takes two vectors and returns the orthogonal component'''
         try:
-            projection = Vector(self.component_parallel_to(basis))
+            projection = self.component_parallel_to(basis)
             return self.minus(projection)
 
         except Exception as e:
@@ -136,17 +136,17 @@ class Vector(object):
     def plus(self, v):
         '''takes two vectors and adds them'''
         new_coordinates = [x + y for x,y in zip(self.coordinates, v.coordinates)]
-        return new_coordinates
+        return Vector(new_coordinates)
 
     def minus(self, v):
         '''takes two vectors and substracts them'''
         new_coordinates = [x - y for x,y in zip(self.coordinates, v.coordinates)]
-        return new_coordinates
+        return Vector(new_coordinates)
 
     def times_scalar(self, c):
         '''takes a vector and scalar and multiplies them'''
         new_coordinates = [Decimal(c)*x for x in self.coordinates]
-        return new_coordinates
+        return Vector(new_coordinates)
 
     def __getitem__(self, i):
         return self.coordinates[i]

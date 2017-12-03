@@ -83,7 +83,7 @@ class Line(object):
 
         x0 = self.basepoint
         y0 = ell.basepoint
-        basepoint_difference = Vector(x0.minus(y0))
+        basepoint_difference = x0.minus(y0)
 
 
         n = self.normal_vector
